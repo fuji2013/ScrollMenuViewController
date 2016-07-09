@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A71D989A1D30EBFD00531580 /* ScrollMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71D98991D30EBFD00531580 /* ScrollMenuViewController.swift */; };
 		A72AD2931D3011670036C6FA /* ScrollMenuViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = A72AD2921D3011670036C6FA /* ScrollMenuViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A72AD29A1D3011680036C6FA /* ScrollMenuViewController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A72AD28F1D3011670036C6FA /* ScrollMenuViewController.framework */; };
 		A72AD29F1D3011680036C6FA /* ScrollMenuViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72AD29E1D3011680036C6FA /* ScrollMenuViewControllerTests.swift */; };
@@ -23,6 +24,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A71D98991D30EBFD00531580 /* ScrollMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollMenuViewController.swift; sourceTree = "<group>"; };
 		A72AD28F1D3011670036C6FA /* ScrollMenuViewController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ScrollMenuViewController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A72AD2921D3011670036C6FA /* ScrollMenuViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScrollMenuViewController.h; sourceTree = "<group>"; };
 		A72AD2941D3011670036C6FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 			children = (
 				A72AD2921D3011670036C6FA /* ScrollMenuViewController.h */,
 				A72AD2941D3011670036C6FA /* Info.plist */,
+				A71D98991D30EBFD00531580 /* ScrollMenuViewController.swift */,
 			);
 			path = ScrollMenuViewController;
 			sourceTree = "<group>";
@@ -194,6 +197,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A71D989A1D30EBFD00531580 /* ScrollMenuViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,6 +314,7 @@
 		A72AD2A41D3011680036C6FA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -320,12 +325,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.swift-studying.ScrollMenuViewController";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		A72AD2A51D3011680036C6FA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -378,6 +385,7 @@
 				A72AD2A51D3011680036C6FA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A72AD2A61D3011680036C6FA /* Build configuration list for PBXNativeTarget "ScrollMenuViewControllerTests" */ = {
 			isa = XCConfigurationList;
@@ -386,6 +394,7 @@
 				A72AD2A81D3011680036C6FA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
