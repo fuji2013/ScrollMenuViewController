@@ -18,9 +18,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // 初期画面の作成
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        window?.rootViewController = ScrollMenuViewController()
+        window?.rootViewController = createRootViewController()
         window?.makeKeyAndVisible()
         
         return true
+    }
+    
+    func createRootViewController() -> UIViewController{
+        let scrollMenuViewController = ScrollMenuViewController()
+        let child1ViewController = UIViewController()
+        let child2ViewController = UIViewController()
+        
+        scrollMenuViewController.addChildMenuViewController(child1ViewController)
+        scrollMenuViewController.addChildMenuViewController(child2ViewController)
+        
+        return scrollMenuViewController
     }
 }

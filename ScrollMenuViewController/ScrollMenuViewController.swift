@@ -12,9 +12,16 @@ import UIKit
  ScrollMenuViewController
  */
 class ScrollMenuViewController: UIViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        self.view.backgroundColor = UIColor.blueColor()
+    private var childMenuViewControllers: [UIViewController]?
+    
+    internal func addChildMenuViewController(viewController: UIViewController){
+        if childMenuViewControllers == nil{
+            childMenuViewControllers = [UIViewController]()
+        }
+        childMenuViewControllers!.append(viewController)  // already checked not nil
+    }
+    
+    internal func getChileMenuViewControllers() -> [UIViewController]?{
+        return childMenuViewControllers
     }
 }
