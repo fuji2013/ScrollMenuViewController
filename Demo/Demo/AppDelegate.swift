@@ -27,6 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func createRootViewController() -> UIViewController{
         let scrollMenuViewController = ScrollMenuViewController()
         let child1ViewController = UIViewController()
+        child1ViewController.view.backgroundColor = UIColor.blueColor()
         let child2ViewController = UIViewController()
         
         scrollMenuViewController.addChildMenuViewController(child1ViewController)

@@ -21,6 +21,17 @@ class ScrollMenuViewController: UIViewController {
         childMenuViewControllers!.append(viewController)  // already checked not nil
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        if let childMenuViewControllers = childMenuViewControllers where !childMenuViewControllers.isEmpty{
+            let childVC = childMenuViewControllers.first!
+            addChildMenuViewController(childVC)
+            view.addSubview(childVC.view)
+            childVC.didMoveToParentViewController(self)
+        }
+    }
+    
     internal func getChileMenuViewControllers() -> [UIViewController]?{
         return childMenuViewControllers
     }
