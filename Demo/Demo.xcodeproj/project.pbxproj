@@ -7,19 +7,33 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A70B4D991D46489800D3B387 /* LeftToRightAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70B4D961D46489800D3B387 /* LeftToRightAnimationController.swift */; };
+		A70B4D9A1D46489800D3B387 /* RightToLeftReturnAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70B4D971D46489800D3B387 /* RightToLeftReturnAnimationController.swift */; };
+		A70B4D9B1D46489800D3B387 /* SwipeInteractionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70B4D981D46489800D3B387 /* SwipeInteractionController.swift */; };
 		A71D98861D30E29600531580 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71D98851D30E29600531580 /* AppDelegate.swift */; };
 		A71D988D1D30E29600531580 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A71D988C1D30E29600531580 /* Assets.xcassets */; };
 		A71D98901D30E29600531580 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A71D988E1D30E29600531580 /* LaunchScreen.storyboard */; };
 		A71D989C1D30ECD000531580 /* ScrollMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71D989B1D30ECD000531580 /* ScrollMenuViewController.swift */; };
+		A727F7591D323035006F0A07 /* LeftToRightAnimator_old.swift in Sources */ = {isa = PBXBuildFile; fileRef = A727F7581D323035006F0A07 /* LeftToRightAnimator_old.swift */; };
+		A727F75D1D3234A1006F0A07 /* ChildMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A727F75C1D3234A1006F0A07 /* ChildMenuViewController.swift */; };
+		A727F7611D327369006F0A07 /* SwipeInteractionController_old.swift in Sources */ = {isa = PBXBuildFile; fileRef = A727F7601D327369006F0A07 /* SwipeInteractionController_old.swift */; };
+		A770BBFD1D48E5A4001D3989 /* ScrollMenuViewParent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A770BBFC1D48E5A4001D3989 /* ScrollMenuViewParent.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A70B4D961D46489800D3B387 /* LeftToRightAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LeftToRightAnimationController.swift; path = ../ScrollMenuViewController/LeftToRightAnimationController.swift; sourceTree = "<group>"; };
+		A70B4D971D46489800D3B387 /* RightToLeftReturnAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RightToLeftReturnAnimationController.swift; path = ../ScrollMenuViewController/RightToLeftReturnAnimationController.swift; sourceTree = "<group>"; };
+		A70B4D981D46489800D3B387 /* SwipeInteractionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwipeInteractionController.swift; path = ../ScrollMenuViewController/SwipeInteractionController.swift; sourceTree = "<group>"; };
 		A71D98821D30E29600531580 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A71D98851D30E29600531580 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A71D988C1D30E29600531580 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A71D988F1D30E29600531580 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A71D98911D30E29600531580 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A71D989B1D30ECD000531580 /* ScrollMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScrollMenuViewController.swift; path = ../ScrollMenuViewController/ScrollMenuViewController.swift; sourceTree = "<group>"; };
+		A727F7581D323035006F0A07 /* LeftToRightAnimator_old.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LeftToRightAnimator_old.swift; path = ../ScrollMenuViewController/LeftToRightAnimator_old.swift; sourceTree = "<group>"; };
+		A727F75C1D3234A1006F0A07 /* ChildMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChildMenuViewController.swift; path = ../ScrollMenuViewController/ChildMenuViewController.swift; sourceTree = "<group>"; };
+		A727F7601D327369006F0A07 /* SwipeInteractionController_old.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwipeInteractionController_old.swift; path = ../ScrollMenuViewController/SwipeInteractionController_old.swift; sourceTree = "<group>"; };
+		A770BBFC1D48E5A4001D3989 /* ScrollMenuViewParent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScrollMenuViewParent.swift; path = ../ScrollMenuViewController/ScrollMenuViewParent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,7 +78,14 @@
 		A71D98981D30E39D00531580 /* ScrollMenuViewController */ = {
 			isa = PBXGroup;
 			children = (
+				A70B4D961D46489800D3B387 /* LeftToRightAnimationController.swift */,
+				A70B4D971D46489800D3B387 /* RightToLeftReturnAnimationController.swift */,
+				A70B4D981D46489800D3B387 /* SwipeInteractionController.swift */,
+				A727F7601D327369006F0A07 /* SwipeInteractionController_old.swift */,
+				A727F75C1D3234A1006F0A07 /* ChildMenuViewController.swift */,
 				A71D989B1D30ECD000531580 /* ScrollMenuViewController.swift */,
+				A727F7581D323035006F0A07 /* LeftToRightAnimator_old.swift */,
+				A770BBFC1D48E5A4001D3989 /* ScrollMenuViewParent.swift */,
 			);
 			name = ScrollMenuViewController;
 			sourceTree = "<group>";
@@ -139,8 +160,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A770BBFD1D48E5A4001D3989 /* ScrollMenuViewParent.swift in Sources */,
+				A727F75D1D3234A1006F0A07 /* ChildMenuViewController.swift in Sources */,
+				A70B4D991D46489800D3B387 /* LeftToRightAnimationController.swift in Sources */,
 				A71D989C1D30ECD000531580 /* ScrollMenuViewController.swift in Sources */,
+				A727F7611D327369006F0A07 /* SwipeInteractionController_old.swift in Sources */,
+				A727F7591D323035006F0A07 /* LeftToRightAnimator_old.swift in Sources */,
 				A71D98861D30E29600531580 /* AppDelegate.swift in Sources */,
+				A70B4D9B1D46489800D3B387 /* SwipeInteractionController.swift in Sources */,
+				A70B4D9A1D46489800D3B387 /* RightToLeftReturnAnimationController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
