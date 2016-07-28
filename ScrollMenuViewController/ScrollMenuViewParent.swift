@@ -9,8 +9,7 @@
 import UIKit
 
 public protocol ScrollMenuViewParent{
-    var childPages:[UIViewController]{ get }
     var nextPage:UIViewController?{ get }
     var previousPage:UIViewController?{ get }
-    var currentPage:UIViewController{ get }
+    var currentPage:UIViewController?{ get set }
 }

@@ -11,17 +11,70 @@ import UIKit
 /**
  ScrollMenuViewController
  */
-class ScrollMenuViewController: UIViewController, UIViewControllerTransitioningDelegate {
+class ScrollMenuViewController: UIViewController, UIViewControllerTransitioningDelegate, ScrollMenuViewParent, SwipeInteractionControllerDelegate {
     private let swipeInteractionController = SwipeInteractionController()
     private var childMenuViewControllers: [UIViewController]?
+    private var current: UIViewController?
     let leftToRightAnimator = LeftToRightAnimationController()
     let rightToLeftAnimator = RightToLeftReturnAnimationController()
     
-    internal func addChildMenuViewController(viewController: UIViewController){
+    func addChildPageViewController(viewControler: UIViewController){
         if childMenuViewControllers == nil{
+            current = viewControler
+            viewControler.transitioningDelegate = self
             childMenuViewControllers = [UIViewController]()
         }
-        childMenuViewControllers!.append(viewController)  // already checked not nil
+        childMenuViewControllers!.append(viewControler)  // already checked not nil
+    }
+    
+
+    
+    var previousPage: UIViewController?{
+        guard let childPages = self.childMenuViewControllers else{
+            return nil
+        }
+        
+        guard let current = self.currentPage else{
+            return nil
+        }
+        
+        guard let currentIndex = childPages.indexOf(current) else{
+            return nil
+        }
+        
+        if currentIndex > 0{
+            return childPages[currentIndex - 1]
+        }
+        return nil
+    }
+    
+    var currentPage: UIViewController?{
+        set(new){
+            current = new
+        }
+        get{
+            return current
+        }
+    }
+    
+    var nextPage: UIViewController?{
+
+        guard let childPages = self.childMenuViewControllers else{
+            return nil
+        }
+        
+        guard let current = self.currentPage else{
+            return nil
+        }
+        
+        guard let currentIndex = childPages.indexOf(current) else{
+            return nil
+        }
+        
+        if currentIndex < childPages.count - 1{
+            return childPages[currentIndex + 1]
+        }
+        return nil
     }
     
     override func viewDidLoad() {
@@ -29,12 +82,11 @@ class ScrollMenuViewController: UIViewController, UIViewControllerTransitioningD
         
         if let childMenuViewControllers = childMenuViewControllers where !childMenuViewControllers.isEmpty{
             let childVC = childMenuViewControllers.first!
-            addChildMenuViewController(childVC)
             addChildViewController(childVC)
             view.addSubview(childVC.view)
             childVC.didMoveToParentViewController(self)
-            swipeInteractionController.wireToViewController(childVC, next: childMenuViewControllers.last!)
-            childVC.transitioningDelegate = self
+            swipeInteractionController.wireToController(current!, next: nextPage!, previous: nil)
+            swipeInteractionController.delegate = self
         }
     }
     
@@ -53,15 +105,33 @@ class ScrollMenuViewController: UIViewController, UIViewControllerTransitioningD
         return swipeInteractionController.interactionProgress ? swipeInteractionController : nil
     }
     
-    func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func swipeInteractionControllerBegan(current: UIViewController, toViewController: UIViewController) {
+        addChildViewController(toViewController)
+        moveToZeroPosition(toViewController.view)
+        view.insertSubview(toViewController.view, belowSubview: current.view)
+        toViewController.didMoveToParentViewController(self)
+    }
+
+    func swipeInteractionControllerCancelled(current: UIViewController, next: UIViewController?, previous: UIViewController?, cancelled: UIViewController) {
+        cancelled.willMoveToParentViewController(nil)
+        cancelled.view.removeFromSuperview()
+        cancelled.removeFromParentViewController()
+    }
+
+    func swipeInteractionControllerCompleted(current: UIViewController, next: UIViewController?, previous: UIViewController?, after: UIViewController) {
+
+        current.willMoveToParentViewController(nil)
+        current.view.removeFromSuperview()
+        current.removeFromParentViewController()
         
-        swipeInteractionController.wireToViewController(presented, next: childMenuViewControllers!.last!)
-        return leftToRightAnimator
+        current.transitioningDelegate = nil
+        after.transitioningDelegate = self
+        
+        currentPage = after
+        swipeInteractionController.wireToController(currentPage!, next: nextPage, previous: previousPage)
     }
     
-    func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        
-        swipeInteractionController.wireToViewController(dismissed, next: childMenuViewControllers!.last!)
-        return rightToLeftAnimator
+    private func moveToZeroPosition(view:UIView){
+        view.frame = CGRect(origin: CGPointZero, size: view.bounds.size)
     }
 }

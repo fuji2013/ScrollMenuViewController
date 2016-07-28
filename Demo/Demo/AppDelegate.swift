@@ -29,9 +29,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let child1ViewController = ChildMenuViewController()
         child1ViewController.view.backgroundColor = UIColor.grayColor()
         let child2ViewController = ChildMenuViewController()
+        child2ViewController.view.backgroundColor = UIColor.blueColor()
+        let child3ViewController = ChildMenuViewController()
+        child3ViewController.view.backgroundColor = UIColor.yellowColor()
         
-        scrollMenuViewController.addChildMenuViewController(child1ViewController)
-        scrollMenuViewController.addChildMenuViewController(child2ViewController)
+        
+        scrollMenuViewController.addChildPageViewController(child1ViewController)
+        scrollMenuViewController.addChildPageViewController(child2ViewController)
+        scrollMenuViewController.addChildPageViewController(child3ViewController)
         
         return scrollMenuViewController
     }
