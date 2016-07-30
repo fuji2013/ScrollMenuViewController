@@ -100,43 +100,96 @@ class ScrollMenuViewController: UIViewController, UIViewControllerTransitioningD
         return swipeInteractionController.interactionProgress ? swipeInteractionController : nil
     }
     
-    func swipeInteractionControllerBegan(current:UIViewController, to:UIViewController, next:UIViewController?, previous:UIViewController?){
-        addChildViewController(to)
-        moveToZeroPosition(to.view)
-        view.insertSubview(to.view, belowSubview: current.view)
-        to.didMoveToParentViewController(self)
-    }
-    
-    
-    
     func interactionControllerForDismissal(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
         
         return swipeInteractionController.interactionProgress ? swipeInteractionController : nil
     }
     
-    func swipeInteractionControllerChanged(current: UIViewController, to: UIViewController, next: UIViewController?, previous: UIViewController?) {
+    func swipeInteractionControllerBegan(current:UIViewController, to:UIViewController, next:UIViewController?, previous:UIViewController?){
         
+        // toをchildViewとして登録
+        addChildViewController(to)
+        
+        // toが前ページのとき、toを移動
+        if to === previous{
+            moveToOutside(to.view)
+            view.insertSubview(to.view, aboveSubview: current.view)
+        }else if to === next{
+            // toが次ページのとき、currentを移動
+            moveToZeroPosition(to.view)
+            view.insertSubview(to.view, belowSubview: current.view)
+        }
+        to.didMoveToParentViewController(self)
+    }
+    
+    func swipeInteractionControllerChanged(current current: UIViewController, to: UIViewController, next: UIViewController?, previous: UIViewController?) {
+        
+        // 現在表示中画面の移動
+        if to === previous{
+            let toPosition = to.view.frame.origin
+            let toSize = to.view.frame.size
+            let movingPosition = CGPoint(x: (toSize.width * -1) + swipeInteractionController.translation.x, y: toPosition.y)
+            to.view.frame = CGRect(origin: movingPosition, size: toSize)
+        }else if to === next{
+            let movingPosition = CGPoint(x: swipeInteractionController.translation.x, y: current.view.frame.origin.y)
+            let currentSize = current.view.frame.size
+            current.view.frame = CGRect(origin: movingPosition, size: currentSize)
+        }
     }
     
     func swipeInteractionControllerCancelled(current: UIViewController, to: UIViewController, next: UIViewController?, previous: UIViewController?) {
-        to.willMoveToParentViewController(nil)
-        to.view.removeFromSuperview()
-        to.removeFromParentViewController()
+        
+        // 現在表示中画面の表示
+        if to === previous{
+            UIView.animateWithDuration(0.3, animations: {
+                self.moveToOutside(to.view)
+                }, completion: { (finished) in
+                    
+                // toをchildViewControllerから削除
+                to.willMoveToParentViewController(nil)
+                to.view.removeFromSuperview()
+                to.removeFromParentViewController()
+            })
+        }else if to === next{
+            UIView.animateWithDuration(0.3, animations: { 
+                self.moveToZeroPosition(current.view)
+                }, completion: { (finished) in
+                    
+                // toをchildViewControllerから削除
+                to.willMoveToParentViewController(nil)
+                to.view.removeFromSuperview()
+                to.removeFromParentViewController()
+            })
+        }
     }
     
     func swipeInteractionControllerCompleted(current: UIViewController, to: UIViewController, next: UIViewController?, previous: UIViewController?) {
-        current.willMoveToParentViewController(nil)
-        current.view.removeFromSuperview()
-        current.removeFromParentViewController()
-
+        
+        UIView.animateWithDuration(0.3, animations: {
+            self.moveToZeroPosition(to.view)
+            if to === next{
+                self.moveToOutside(current.view)
+            }
+            
+            }) { (finished) in
+                // currentをchildViewControllerから削除
+                current.willMoveToParentViewController(nil)
+                current.view.removeFromSuperview()
+                current.removeFromParentViewController()
+                
+                self.currentPage = to
+                self.swipeInteractionController.wireToController(to, next: self.nextPage, previous: self.previousPage)
+        }
+        
         current.transitioningDelegate = nil
         to.transitioningDelegate = self
-
-        currentPage = to
-        swipeInteractionController.wireToController(currentPage!, next: nextPage, previous: previousPage)
     }
 
     private func moveToZeroPosition(view:UIView){
         view.frame = CGRect(origin: CGPointZero, size: view.bounds.size)
+    }
+    
+    private func moveToOutside(view:UIView){
+        view.frame = CGRect(x: view.bounds.width * -1, y: view.bounds.origin.y, width: view.bounds.width, height: view.bounds.height)
     }
 }
