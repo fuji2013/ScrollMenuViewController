@@ -8,10 +8,29 @@
 
 import UIKit
 
+/**
+ スワイプでのページ切替時の処理インターフェイス
+ */
 protocol SwipeInteractionControllerDelegate:NSObjectProtocol {
-    func swipeInteractionControllerBegan(current:UIViewController, toViewController:UIViewController)
-    func swipeInteractionControllerCompleted(current:UIViewController, next:UIViewController?, previous:UIViewController?, after:UIViewController)
-    func swipeInteractionControllerCancelled(current:UIViewController, next:UIViewController?, previous:UIViewController?, cancelled:UIViewController)
+    /**
+     スワイプ開始時に実行される
+    */
+    func swipeInteractionControllerBegan(current:UIViewController, to:UIViewController, next:UIViewController?, previous:UIViewController?)
+    
+    /**
+     スワイプ時に随時実行される
+    */
+    func swipeInteractionControllerChanged(current:UIViewController, to:UIViewController, next:UIViewController?, previous:UIViewController?)
+    
+    /**
+     スワイプでのページ切替が完了したときに実行される
+    */
+    func swipeInteractionControllerCompleted(current:UIViewController, to:UIViewController, next:UIViewController?, previous:UIViewController?)
+    
+    /**
+     スワイプでのページ切替が完了した時に実行される
+    */
+    func swipeInteractionControllerCancelled(current:UIViewController, to:UIViewController, next:UIViewController?, previous:UIViewController?)
 }
 
 class SwipeInteractionController: UIPercentDrivenInteractiveTransition {
@@ -25,9 +44,6 @@ class SwipeInteractionController: UIPercentDrivenInteractiveTransition {
     private var previousViewController:UIViewController?
     
     var interactionProgress = false
-    var completionSeed: CGFloat{
-        return 1 - percentComplete
-    }
     
     func wireToController(current:UIViewController, next:UIViewController?, previous:UIViewController?){
         currentViewController = current
@@ -60,7 +76,7 @@ class SwipeInteractionController: UIPercentDrivenInteractiveTransition {
                 return
             }
             
-            delegate?.swipeInteractionControllerBegan(currentViewController, toViewController: targetViewController)
+            delegate?.swipeInteractionControllerBegan(currentViewController, to: targetViewController, next: nextViewController, previous: previousViewController)
             interactionProgress = true
         case .Changed:
             guard interactionProgress else{
@@ -81,7 +97,7 @@ class SwipeInteractionController: UIPercentDrivenInteractiveTransition {
                 UIView.animateWithDuration(diff * 0.5, animations: {
                     self.currentViewController.view.frame = CGRect(origin: CGPoint(x: self.currentViewController.view.bounds.size.width * multiplier, y:0), size: self.currentViewController.view.bounds.size)
                     }, completion: { (finished) in
-                        self.delegate?.swipeInteractionControllerCompleted(self.currentViewController, next: self.nextViewController, previous: self.previousViewController, after: self.targetViewController!)
+                        self.delegate?.swipeInteractionControllerCompleted(self.currentViewController, to: self.targetViewController!, next: self.nextViewController, previous: self.previousViewController)
                         self.finishInteractiveTransition()
                 })
                 interactionProgress = false
@@ -110,7 +126,7 @@ class SwipeInteractionController: UIPercentDrivenInteractiveTransition {
                     }, completion: { (finished) in
                         
 
-                    self.delegate?.swipeInteractionControllerCancelled(self.currentViewController, next: self.nextViewController, previous: self.previousViewController, cancelled: self.targetViewController!)
+                    self.delegate?.swipeInteractionControllerCancelled(self.currentViewController, to: self.targetViewController!, next: self.nextViewController, previous: self.previousViewController)
                 })
                 self.cancelInteractiveTransition()
                 
@@ -124,7 +140,7 @@ class SwipeInteractionController: UIPercentDrivenInteractiveTransition {
                 UIView.animateWithDuration(diff * 0.5, animations: {
                     self.currentViewController.view.frame = CGRect(origin: CGPoint(x: self.currentViewController.view.bounds.size.width * multiplier, y:0), size: self.currentViewController.view.bounds.size)
                     }, completion: { (finished) in
-                        self.delegate?.swipeInteractionControllerCompleted(self.currentViewController, next: self.nextViewController, previous: self.previousViewController, after: self.targetViewController!)
+                        self.delegate?.swipeInteractionControllerCompleted(self.currentViewController, to: self.targetViewController!, next: self.nextViewController, previous: self.previousViewController)
                         self.finishInteractiveTransition()
                 })
                 

@@ -100,37 +100,42 @@ class ScrollMenuViewController: UIViewController, UIViewControllerTransitioningD
         return swipeInteractionController.interactionProgress ? swipeInteractionController : nil
     }
     
+    func swipeInteractionControllerBegan(current:UIViewController, to:UIViewController, next:UIViewController?, previous:UIViewController?){
+        addChildViewController(to)
+        moveToZeroPosition(to.view)
+        view.insertSubview(to.view, belowSubview: current.view)
+        to.didMoveToParentViewController(self)
+    }
+    
+    
+    
     func interactionControllerForDismissal(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
         
         return swipeInteractionController.interactionProgress ? swipeInteractionController : nil
     }
     
-    func swipeInteractionControllerBegan(current: UIViewController, toViewController: UIViewController) {
-        addChildViewController(toViewController)
-        moveToZeroPosition(toViewController.view)
-        view.insertSubview(toViewController.view, belowSubview: current.view)
-        toViewController.didMoveToParentViewController(self)
+    func swipeInteractionControllerChanged(current: UIViewController, to: UIViewController, next: UIViewController?, previous: UIViewController?) {
+        
     }
-
-    func swipeInteractionControllerCancelled(current: UIViewController, next: UIViewController?, previous: UIViewController?, cancelled: UIViewController) {
-        cancelled.willMoveToParentViewController(nil)
-        cancelled.view.removeFromSuperview()
-        cancelled.removeFromParentViewController()
+    
+    func swipeInteractionControllerCancelled(current: UIViewController, to: UIViewController, next: UIViewController?, previous: UIViewController?) {
+        to.willMoveToParentViewController(nil)
+        to.view.removeFromSuperview()
+        to.removeFromParentViewController()
     }
-
-    func swipeInteractionControllerCompleted(current: UIViewController, next: UIViewController?, previous: UIViewController?, after: UIViewController) {
-
+    
+    func swipeInteractionControllerCompleted(current: UIViewController, to: UIViewController, next: UIViewController?, previous: UIViewController?) {
         current.willMoveToParentViewController(nil)
         current.view.removeFromSuperview()
         current.removeFromParentViewController()
-        
+
         current.transitioningDelegate = nil
-        after.transitioningDelegate = self
-        
-        currentPage = after
+        to.transitioningDelegate = self
+
+        currentPage = to
         swipeInteractionController.wireToController(currentPage!, next: nextPage, previous: previousPage)
     }
-    
+
     private func moveToZeroPosition(view:UIView){
         view.frame = CGRect(origin: CGPointZero, size: view.bounds.size)
     }
