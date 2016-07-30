@@ -123,33 +123,6 @@ class SwipeInteractionController: UIPercentDrivenInteractiveTransition {
             delegate?.swipeInteractionControllerChanged(current: currentViewController, to: targetViewController!, next: nextViewController, previous: previousViewController)
             updateInteractiveTransition(fraction)
             
-//            // 現在表示中画面の移動
-//            currentViewController.view.frame = CGRect(x: translation.x, y: currentViewRect.origin.y, width: currentViewRect.size.width, height: currentViewRect.size.height)
-            
-            
-            
-            
-//            if abs(gestureRecgnizer.velocityInView(gestureRecgnizer.view!.superview!).x) > 300{
-//                let multiplier:CGFloat = targetViewController === nextViewController ? -1 : 1
-//                
-//                
-//                let diff = NSTimeInterval((self.currentViewController.view.bounds.width - translation.x * multiplier) / self.currentViewController.view.bounds.width)
-//                
-//                currentViewController.view.removeGestureRecognizer(gestureRecgnizer)
-//                UIView.animateWithDuration(diff * 0.5, animations: {
-//                    self.currentViewController.view.frame = CGRect(origin: CGPoint(x: self.currentViewController.view.bounds.size.width * multiplier, y:0), size: self.currentViewController.view.bounds.size)
-//                    }, completion: { (finished) in
-//                        self.delegate?.swipeInteractionControllerCompleted(self.currentViewController, to: self.targetViewController!, next: self.nextViewController, previous: self.previousViewController)
-//                        self.finishInteractiveTransition()
-//                })
-//                interactionProgress = false
-//
-//            }else{
-//            
-//                shouldCompleteTransition = fraction > 0.3
-//                updateInteractiveTransition(fraction)
-//            }
-            
         case .Ended, .Cancelled:
             // ページ切替処理中のみ処理を継続
             guard interactionProgress else{
@@ -167,38 +140,6 @@ class SwipeInteractionController: UIPercentDrivenInteractiveTransition {
             
             // ページ切替処理終了
             interactionProgress = false
-            
-            
-//            currentViewController.view.removeGestureRecognizer(gestureRecgnizer)
-            
-//            if !shouldCompleteTransition || gestureRecgnizer.state == .Cancelled{
-//                let multiplier:CGFloat = targetViewController === nextViewController ? -1 : 1
-//                let diff = NSTimeInterval((self.currentViewController.view.bounds.width - translation.x * multiplier) / self.currentViewController.view.bounds.width)
-//                
-//                UIView.animateWithDuration(diff * 0.5, animations: {
-//                    self.currentViewController.view.frame = CGRect(origin: CGPointZero, size: self.currentViewController.view.bounds.size)
-//                    }, completion: { (finished) in
-//                        
-//
-//                    self.delegate?.swipeInteractionControllerCancelled(self.currentViewController, to: self.targetViewController!, next: self.nextViewController, previous: self.previousViewController)
-//                })
-//                self.cancelInteractiveTransition()
-//                
-//            }else{
-//                let multiplier:CGFloat = targetViewController === nextViewController ? -1 : 1
-//                
-//                
-//                let diff = NSTimeInterval((self.currentViewController.view.bounds.width - translation.x * multiplier) / self.currentViewController.view.bounds.width)
-//                
-//
-//                UIView.animateWithDuration(diff * 0.5, animations: {
-//                    self.currentViewController.view.frame = CGRect(origin: CGPoint(x: self.currentViewController.view.bounds.size.width * multiplier, y:0), size: self.currentViewController.view.bounds.size)
-//                    }, completion: { (finished) in
-//                        self.delegate?.swipeInteractionControllerCompleted(self.currentViewController, to: self.targetViewController!, next: self.nextViewController, previous: self.previousViewController)
-//                        self.finishInteractiveTransition()
-//                })
-            
-                
             
         default:
             break
