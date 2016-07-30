@@ -141,7 +141,7 @@ class ScrollMenuViewController: UIViewController, UIViewControllerTransitioningD
         
         // 現在表示中画面の表示
         if to === previous{
-            UIView.animateWithDuration(0.3, animations: {
+            UIView.animateWithDuration(0.2, animations: {
                 self.moveToOutside(to.view)
                 }, completion: { (finished) in
                     
@@ -149,9 +149,10 @@ class ScrollMenuViewController: UIViewController, UIViewControllerTransitioningD
                 to.willMoveToParentViewController(nil)
                 to.view.removeFromSuperview()
                 to.removeFromParentViewController()
+                self.swipeInteractionController.wireToController(current, next: self.nextPage, previous: self.previousPage)
             })
         }else if to === next{
-            UIView.animateWithDuration(0.3, animations: { 
+            UIView.animateWithDuration(0.2, animations: {
                 self.moveToZeroPosition(current.view)
                 }, completion: { (finished) in
                     
@@ -159,13 +160,16 @@ class ScrollMenuViewController: UIViewController, UIViewControllerTransitioningD
                 to.willMoveToParentViewController(nil)
                 to.view.removeFromSuperview()
                 to.removeFromParentViewController()
+                self.swipeInteractionController.wireToController(current, next: self.nextPage, previous: self.previousPage)
             })
         }
     }
     
     func swipeInteractionControllerCompleted(current: UIViewController, to: UIViewController, next: UIViewController?, previous: UIViewController?) {
         
-        UIView.animateWithDuration(0.3, animations: {
+        current.transitioningDelegate = nil
+        
+        UIView.animateWithDuration(0.2, animations: {
             self.moveToZeroPosition(to.view)
             if to === next{
                 self.moveToOutside(current.view)
@@ -179,10 +183,8 @@ class ScrollMenuViewController: UIViewController, UIViewControllerTransitioningD
                 
                 self.currentPage = to
                 self.swipeInteractionController.wireToController(to, next: self.nextPage, previous: self.previousPage)
+                to.transitioningDelegate = self
         }
-        
-        current.transitioningDelegate = nil
-        to.transitioningDelegate = self
     }
 
     private func moveToZeroPosition(view:UIView){

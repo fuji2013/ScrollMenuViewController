@@ -33,23 +33,18 @@ protocol SwipeInteractionControllerDelegate: NSObjectProtocol {
     func swipeInteractionControllerCancelled(current:UIViewController, to:UIViewController, next:UIViewController?, previous:UIViewController?)
 }
 
-class SwipeInteractionController: UIPercentDrivenInteractiveTransition {
+class SwipeInteractionController: UIPercentDrivenInteractiveTransition, UIGestureRecognizerDelegate {
     weak var delegate:SwipeInteractionControllerDelegate?
     var interactionProgress = false
+//    var compltionAnimationProcessing = false
     var translation = CGPointZero
     var velocity = CGPointZero
-    
     
     private var shouldCompleteTransition = false
     private var currentViewController:UIViewController!
     private var targetViewController:UIViewController?
     private var nextViewController:UIViewController?
     private var previousViewController:UIViewController?
-    
-    override init() {
-        super.init()
-        completionSpeed = 0.3
-    }
     
     func wireToController(current:UIViewController, next:UIViewController?, previous:UIViewController?){
         currentViewController = current
@@ -59,9 +54,16 @@ class SwipeInteractionController: UIPercentDrivenInteractiveTransition {
         prepareGestureRecognizerInView(current.view)
     }
     
+    func clearToController(){
+        guard let pan = currentViewController.view.gestureRecognizers?.first else{
+            return
+        }
+        currentViewController.view.removeGestureRecognizer(pan)
+    }
+    
     private func prepareGestureRecognizerInView(view:UIView){
-        let gesture = UIPanGestureRecognizer(target: self, action: #selector(self.dynamicType.handleGesture))
-        view.addGestureRecognizer(gesture)
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(self.dynamicType.handleGesture))
+        view.addGestureRecognizer(pan)
     }
     
     func handleGesture(gestureRecgnizer:UIPanGestureRecognizer){
@@ -110,12 +112,14 @@ class SwipeInteractionController: UIPercentDrivenInteractiveTransition {
             }
             
             // スワイプ速度が速いときは即時にページを切り替える
-            guard abs(velocity.x) <= 300 else{
+            guard abs(velocity.x) <= 2000 else{
                 updateInteractiveTransition(1.0)
                 
                 interactionProgress = false
+                
                 shouldCompleteTransition = true
                 delegate?.swipeInteractionControllerCompleted(currentViewController, to: targetViewController!, next: nextViewController, previous: previousViewController)
+                clearToController()
                 return
             }
             
@@ -132,9 +136,11 @@ class SwipeInteractionController: UIPercentDrivenInteractiveTransition {
             // スワイプキャンセル時、スワイプ完了時の処理呼び出し
             if !shouldCompleteTransition || gestureRecgnizer.state == .Cancelled{
                 delegate?.swipeInteractionControllerCancelled(currentViewController, to: targetViewController!, next: nextViewController, previous: previousViewController)
+                clearToController()
                 cancelInteractiveTransition()
             }else{
                 delegate?.swipeInteractionControllerCompleted(currentViewController, to: targetViewController!, next: nextViewController, previous: previousViewController)
+                clearToController()
                 finishInteractiveTransition()
             }
             
@@ -145,4 +151,9 @@ class SwipeInteractionController: UIPercentDrivenInteractiveTransition {
             break
         }
     }
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
 }
+
